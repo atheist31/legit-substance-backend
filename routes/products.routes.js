@@ -95,7 +95,7 @@ productRouter.patch("/update/:prodID", async (req, res) => {
   const { prodID } = req.params;
   const payload = req.body;
   const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "evaluation");
+  const decoded = jwt.verify(token, "bhashkar");
   const req_id = decoded.userID;
   const product = await ProductModel.find({ _id: prodID });
   const userID_in_product = product[0].userID;
@@ -123,7 +123,7 @@ productRouter.delete("delete/:prodID", async (req, res) => {
   console.log("delete");
   const { prodID } = req.params;
   const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "evaluation");
+  const decoded = jwt.verify(token, "bhashkar");
   const req_id = decoded.userID;
   const product = await ProductModel.find({ _id: prodID });
   const userID_in_product = product[0].userID;
