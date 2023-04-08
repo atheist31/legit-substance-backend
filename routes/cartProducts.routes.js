@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 CartproductRouter.get("/", async (req, res) => {
   const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "bhashkar");
+  const decoded = jwt.verify(token, "evaluation");
 
   try {
     if (decoded) {
@@ -22,7 +22,7 @@ CartproductRouter.post("/cart/:prodID", async (req, res) => {
   const { prodID } = req.params;
   const payload = req.body;
   const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "bhashkar");
+  const decoded = jwt.verify(token, "evaluation");
   const req_id = decoded.userID;
   const note = await ProductModel.find({ _id: prodID });
   const userID_in_product = note[0].userID;
