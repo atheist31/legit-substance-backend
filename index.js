@@ -22,8 +22,6 @@ app.use("/products", productRouter)
 app.use("/cart", CartproductRouter)
 app.use("/order" , orderRouter)
 
-
-
 app.listen(process.env.PORT, async () => {
     try {
         await connection

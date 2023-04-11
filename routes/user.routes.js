@@ -5,7 +5,7 @@ const userRouter = express.Router();
 var jwt = require("jsonwebtoken");
 
 userRouter.post("/register", async (req, res) => {
-  const { username, email, password, age, location, type, order } = req.body;
+  const { username, email, password, age, location } = req.body;
 
   const user = await UserModel.find({ email });
 
@@ -37,6 +37,7 @@ userRouter.post("/login", async (req, res) => {
     // console.log("user", user)
     if (user) {
       bcrypt.compare(password, user.password, async (err, result) => {
+        if(err) return res.send({err})
         if (result) {
           res.status(200).send({
             msg: "Login Successful",
@@ -74,7 +75,7 @@ userRouter.post("/Adminlogin", async (req, res) => {
                 {
                   USER_ID: user._id,
                 },
-                "evaluation"
+                "bhashkar"
               ),
             });
           } else {

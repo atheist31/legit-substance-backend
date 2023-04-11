@@ -21,16 +21,18 @@ productRouter.get("/", async (req, res) => {
       });
       console.log(data);
       res.send(data);
-    } else if (req.query.price) {
-      const data = await ProductModel.find({
-        price: { $gt: req.query.price },
-      }).sort({ price: q });
+    } else if (req.query.sort) {
+      const data = await ProductModel.find().sort({ discountedPrice: q });
       console.log(data);
       res.send(data);
     } else if (req.query.rating) {
       const data = await ProductModel.find({
         rating: { $gt: req.query.rating },
       }).sort({ rating: q });
+      console.log(data);
+      res.send(data);
+    } else if (req.query.type) {
+      const data = await ProductModel.find({ type: req.query.type });
       console.log(data);
       res.send(data);
     } else if (req.query.category) {
@@ -66,6 +68,16 @@ productRouter.get("/sort", async (req, res) => {
   }
 });
 
+productRouter.get("/:id",async(req,res)=>{
+  const id = req.params.id;
+  try {
+    const product = await ProductModel.findById(id);
+    res.status(200).send(product)
+  } catch (error) {
+    res.status(400).send({msg: error.message})
+  }
+})
+
 productRouter.get("/search", async (req, res) => {
   const query = req.query;
   console.log(query);
@@ -95,7 +107,7 @@ productRouter.patch("/update/:prodID", async (req, res) => {
   const { prodID } = req.params;
   const payload = req.body;
   const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "evaluation");
+  const decoded = jwt.verify(token, "bhashkar");
   const req_id = decoded.userID;
   const product = await ProductModel.find({ _id: prodID });
   const userID_in_product = product[0].userID;

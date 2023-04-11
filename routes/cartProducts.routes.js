@@ -4,9 +4,9 @@ const CartproductRouter = express.Router();
 const jwt = require("jsonwebtoken");
 
 CartproductRouter.get("/", async (req, res) => {
-  const token = req.headers.authorization;
-  const decoded = jwt.verify(token, "evaluation");
-
+  const token = req.headers.Authorization;
+  const decoded = jwt.verify(token, "bhashkar");
+  console.log(decoded)
   try {
     if (decoded) {
       const notes = await ProductModel.find({ userID: decoded.userID });
@@ -21,7 +21,7 @@ CartproductRouter.get("/", async (req, res) => {
 CartproductRouter.post("/cart/:prodID", async (req, res) => {
   const { prodID } = req.params;
   const payload = req.body;
-  const token = req.headers.authorization;
+  const token = req.headers.Authorization;
   const decoded = jwt.verify(token, "evaluation");
   const req_id = decoded.userID;
   const note = await ProductModel.find({ _id: prodID });
@@ -47,7 +47,7 @@ CartproductRouter.post("/cart/:prodID", async (req, res) => {
 CartproductRouter.patch("/update/:prodID", async (req, res) => {
   const { prodID } = req.params;
   const payload = req.body;
-  const token = req.headers.authorization;
+  const token = req.headers.Authorization;
   const decoded = jwt.verify(token, "evaluation");
   const req_id = decoded.userID;
   const product = await ProductModel.find({ _id: prodID });
